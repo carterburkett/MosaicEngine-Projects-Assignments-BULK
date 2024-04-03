@@ -1,0 +1,90 @@
+
+Maybe bring back DynamicArrays because they're easier to see in the debugger?
+
+* Pass in file to compile
+  Much easier to check out different files if they don't have to mess with mosaic.cpp
+* FontSize
+  This is totally fucking broken
+
+  I think part of the problem is that we just look at texcoord map for the size. 
+
+  Why is the scaling not working?
+
+  So the texcoord map we're getting is right
+
+  We want it so that a glyph with an emSize of 1 would take up 1 world unit, or one pixel.
+  - that means when we take the dimension of the UV range and scale it by the emSize * 1 we should get (1 1)
+  - now most glyphs arent size EM, so they'll take up a smaller UV space, but we need to know what thu UV space we'd occupy 
+
+    stb lets us get the scale for a given emSize, but is that really what we want? I don't care what the emSize is, I just want an emSize
+
+    What's happening now is that our emSize is sooo small
+    - our uv range covers multiple glyphs
+    - we have to scale a ton to even get visible
+
+  I dont think we really need the emSize on the font.
+
+  Our calculations are still wrong! 
+  - size is dependent on the size of the texture (despite our pixelHeight scaling with size...?)
+* release build script
+  strip out the notes folder.
+* Performance when drawing lots of stuff
+  Have to multithread this, if you've got just a 320 x 240 resolution that's a lot of iterations. But I'd like them to be able to draw 
+
+  And really multithreading is not that hard, and this is a good intro to it.
+
+  I'd like to do this without a task-manager, just simply feeding work to a couple threads that are devoted to drawing. 
+
+  Like what's the simplest version here? Two threads, each with their own queue (so we dont have to synchronize). We simply queue a bunch of stuff up and then have it run. 
+  
+  Must make sure there's no overlap between any two regions, otherwise we get a race condition!
+  - so this will be good when drawing sprites on a larger grid over our normal one. 
+  - this'll be fine if we just make sure to add a sprite to all threads when it overlaps their region, knowing that we'll discard any pixels outside region.
+
+  A job system would be much nicer because we dont have to do any platform code in the game. 
+* Game to Core so they can just use Game for their struct
+* Real32 
+  Change all real32 to float32
+* File parsing
+  Read literals for ints, floats, bools, and strings
+  
+  This might be a cool exercise for students tho. 
+* Compiling
+  Pass in a flag telling it what code to compile. Much better than the #if stuff, tho it might require editing the compile script if you want to change the code so there's a tradeoff there.
+* Tech
+  DrawText() should be based on normalized screen coordinates, not the worldspace coordinates since that's weird with our camera.
+
+  Message logging
+  Get input from all keys
+  Audio on windows (from Plura Luna)
+  Audio on Linux
+  Font rendering on Linux
+  hoveredTileClamped so that you just have a tile in the direction of the mouse off the screen.
+  Font size should have a convention. Right now I think its in pixels, and then we scale up by that. 
+  
+  Make sure grid lines are drawn at the center, so a tile should be inset on all sides evenly
+* Architecture
+  Probably could reorganize things a bit to dissolve the layer between Game and Mosaic. It's a layer that isnt needed, but maybe it's good because its clear that the engine can do more than just draw tiles.
+
+
+  Raylib hides the platform layer to be totally internal, and then you write your own main function that starts like
+  InitPlatform();
+  InitWindow();
+  while (running) {
+     do my game
+  }
+
+  One advantage of that is you can be very fine-grained about what happens. You can reorder things as you want per game. 
+  What I don't like is a) I wouldnt write an actual game this way so I dont want to write a toy game this way either.
+  b) it makes the entry point someplace other than the platform which seems odd.
+  
+* Input
+  Rewrite the input system to have devices that we pass in instead of just a deviceID
+
+  Also give user access to all keys on the board. It isnt even an interesting engine assignment to get input working this way.
+* Screenshots
+  Take screenshot. A) it'll help the book, B) it'll be cool for students.
+* OSX
+  Metal
+
+  Maybe just start using SDL? It does make things trickier when we get to platform land.
