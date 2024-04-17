@@ -1,3 +1,9 @@
+#define IN_EDITOR 0
+
+#if IN_EDITOR 
+#include "mosaic.cpp"
+#endif
+
 struct Player {
 	vec2 tiles[4];
 	vec2 pos;
@@ -75,7 +81,7 @@ void DrawLevelBounds() {
 	}
 }
 
-void InitLevel() {
+void InitLevel() {"myIncludePath": ["${workspaceFolder}/include", "${workspaceFolder}/src"],
 	SetTileColor(V2(0), RED);
 
 }
@@ -85,7 +91,6 @@ void RenderLevel() {
 	DrawLevelBounds();
 	DrawPlayer();
 }
-
 void MyMosaicInit() {
 	data.map.width = 64;
 	data.map.height = 36;
