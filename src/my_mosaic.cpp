@@ -43,11 +43,9 @@ void MovePlayer() {
 	
 	if (InputPressed(Keyboard, Input_W) || InputPressed(Keyboard, Input_UpArrow)) {
 		p->pos.y -= 1;
-
 	}
 	else if (InputPressed(Keyboard, Input_S) || InputPressed(Keyboard, Input_DownArrow)) {
 		p->pos.y += 1;
-
 	}
 	else if (InputPressed(Keyboard, Input_A) || InputPressed(Keyboard, Input_LeftArrow)) {
 		p->pos.x -= 1;
@@ -81,7 +79,7 @@ void DrawLevelBounds() {
 void InitLevel() {}
 
 void RenderLevel() {
-//	ClearTiles(PASTEL_BLUE);
+	ClearTiles(PASTEL_BLUE);
 	DrawLevelBounds();
 	DrawPlayer();
 }
