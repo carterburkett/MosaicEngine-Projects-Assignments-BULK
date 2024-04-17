@@ -35,9 +35,7 @@ void GetSet_PlayerTiles() {
 
 void InitPlayer() {
 	data.player.pos = V2(1, 5);
-	for (int i = 0; i < sizeof(data.player.tiles); i++) {
-		GetSet_PlayerTiles();
-	}
+	GetSet_PlayerTiles();
 }
 
 void MovePlayer() {
@@ -63,7 +61,7 @@ void MovePlayer() {
 
 
 void DrawPlayer() {
-	SetTileColor(data.player.pos.x, data.player.pos.y - 3, SKIN_COLOR);
+	SetTileColor(data.player.pos.x, data.player.pos.y - 3, PASTEL_RED);
 	SetTileColor(data.player.pos.x, data.player.pos.y - 2, BLUE);
 	SetTileColor(data.player.pos.x, data.player.pos.y - 1, BLUE);
 	SetTileColor(data.player.pos, BLACK);
@@ -75,21 +73,15 @@ void DrawLevelBounds() {
 	for (int x = 0; x < data.map.width; x++) {
 		for (int y = 0; y < data.map.height; y++) {
 			(x == 0 || x == data.map.width - 1 || y == 0 || y == data.map.height - 1) ? SetTileColor(x, y, MEDBROWN) : SetTileColor(x, y, LITEBROWN);
-
-			//if (draw) { SetTileColor(x, y, MEDBROWN); }
 		}
 	
 	}
 }
 
-
-
-void InitPlayer() {}
-
 void InitLevel() {}
 
 void RenderLevel() {
-	ClearTiles(PASTEL_BLUE);
+//	ClearTiles(PASTEL_BLUE);
 	DrawLevelBounds();
 	DrawPlayer();
 }
@@ -97,8 +89,8 @@ void RenderLevel() {
 void MyMosaicInit() {
 	data.map.width = 64;
 	data.map.height = 36;
-	SetMosaicGridSize(64, 36);
-	data.player.color = GREEN;
+	SetMosaicGridSize(data.map.width, data.map.height);
+	InitPlayer();
 }
 
 void MyMosaicUpdate() {

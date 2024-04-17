@@ -1,4 +1,3 @@
-
 #define RGB(r, g, b) V4(r, g, b, 1.0f)
 
 #define RGB8(r, g, b) V4(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f)
