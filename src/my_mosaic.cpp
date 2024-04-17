@@ -9,7 +9,10 @@ struct TurnActions {
 
 };
 
-struct Box {};
+struct Box {
+
+
+};
 
 struct Map {
 	int16 height;
@@ -54,29 +57,28 @@ void MovePlayer() {
 	else if (InputPressed(Keyboard, Input_D) || InputPressed(Keyboard, Input_RightArrow)) {
 		p->pos.x += 1;
 	}
-
 }
 
 
 void DrawPlayer() {
-	SetTileColor(data.player.pos.x, data.player.pos.y - 3, PASTEL_RED);
+	SetTileColor(data.player.pos.x, data.player.pos.y - 3, GREEN);
 	SetTileColor(data.player.pos.x, data.player.pos.y - 2, BLUE);
 	SetTileColor(data.player.pos.x, data.player.pos.y - 1, BLUE);
 	SetTileColor(data.player.pos, BLACK);
 }
 
-
-
 void DrawLevelBounds() {
 	for (int x = 0; x < data.map.width; x++) {
 		for (int y = 0; y < data.map.height; y++) {
-			(x == 0 || x == data.map.width - 1 || y == 0 || y == data.map.height - 1) ? SetTileColor(x, y, MEDBROWN) : SetTileColor(x, y, LITEBROWN);
+			x == 0 || x == data.map.width - 1 || y == 0 || y == data.map.height - 1 ? SetTileColor(x, y, MEDBROWN) : SetTileColor(x, y, LITEBROWN);
 		}
-	
 	}
 }
 
-void InitLevel() {}
+void InitLevel() {
+	SetTileColor(V2(0), RED);
+
+}
 
 void RenderLevel() {
 	ClearTiles(PASTEL_BLUE);
